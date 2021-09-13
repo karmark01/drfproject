@@ -22,6 +22,7 @@ from form import models
 from rest_framework.views import APIView
 
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from form import serializers
 
@@ -111,7 +112,7 @@ class genricView(CreateModelMixin,GenericAPIView,RetrieveModelMixin):
     lookup_field = 'name'       # Model me jis coloumn se compare kerna chahte ho oska name (name likha he mtlb name se compare kere ga )
 
     lookup_url_kwarg='name'     # To change the name whatever we pass in url (  default is  pk <int:pk> But if you want to change then you can use <int:id>
-                                # set lookup_url_kwarg ='id')\
+                                # set lookup_url_kwarg ='id')
 
     
     # def get_queryset(self):
@@ -160,3 +161,10 @@ class genricView(CreateModelMixin,GenericAPIView,RetrieveModelMixin):
 class Listapiview(RetrieveAPIView,UpdateAPIView):
     queryset = student.objects.all()
     serializer_class = StudentSerilizer
+
+
+class ViewsetStudent(viewsets.ViewSet):
+    def list(self,request):
+        stu_data = student.objects.all()
+        serilize_data = StudentSerilizer(stu_data,many = True)   
+        return Response(serilize_data.data)
