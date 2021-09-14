@@ -164,7 +164,34 @@ class Listapiview(RetrieveAPIView,UpdateAPIView):
 
 
 class ViewsetStudent(viewsets.ViewSet):
+    # for practice purpose i used this 
+    def get_serializer_class(self,data=None):
+        return StudentSerilizer(data)
+
     def list(self,request):
         stu_data = student.objects.all()
+        print(self.basename)
+        print(self.action)
+        print(self.detail)
+        print(self.suffix)
+        print(self.description)
         serilize_data = StudentSerilizer(stu_data,many = True)   
         return Response(serilize_data.data)
+    
+    def retrieve(self,request, pk=None):
+        id = pk
+        data = get_object_or_404(student , id = id)
+        serilize_data = self.get_serializer_class(data)
+        return Response(serilize_data.data)
+
+
+class studentModelViewset(viewsets.ModelViewSet):
+    queryset = student.objects.all()
+    serializer_class = StudentSerilizer
+
+class studentReadOnly(viewsets.ReadOnlyModelViewSet):
+    queryset = student.objects.all()
+    serializer_class = StudentSerilizer
+    
+    
+
