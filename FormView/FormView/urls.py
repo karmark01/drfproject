@@ -20,7 +20,8 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('stu_data',views.ViewsetStudent,basename = 'student')
-
+router.register('stu_model_Viewset',views.studentModelViewset,basename = 'stu_model_Viewset')
+router.register('stu_read_only',views.studentReadOnly,basename = 'stu_read_only')  
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('start/',views.ContactForm.as_view()),
